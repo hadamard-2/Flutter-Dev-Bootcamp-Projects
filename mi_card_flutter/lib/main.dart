@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 void main() {
   runApp(const MyApp());
@@ -12,32 +12,71 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.teal,
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              color: Colors.red,
-              width: 100,
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('images/kendrick_lamar.jpg'),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.yellow,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.yellow.withOpacity(0.5),
-                  width: 100,
-                  height: 100,
-                ),
-              ],
+            const Text(
+              'Kendrick Lamar',
+              style: TextStyle(
+                fontFamily: 'Pacifico',
+                color: Colors.white,
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Container(
-              color: Colors.blue,
-              width: 100,
+            const Text(
+              'HIP-HOP ARTIST',
+              style: TextStyle(
+                fontFamily: 'Source Sans Pro',
+                color: Colors.white,
+                fontSize: 20,
+                letterSpacing: 2.5,
+              ),
+            ),
+            SizedBox(
+              width: 200,
+              height: 20,
+              child: Divider(
+                color: Colors.teal[100],
+              ),
+            ),
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.phone,
+                  color: Colors.teal,
+                ),
+                title: Text(
+                  '+251 91 234 5678',
+                  style: TextStyle(
+                    color: Colors.teal[900],
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.email,
+                  color: Colors.teal,
+                ),
+                title: Text(
+                  'kendrick.lamar@gmail.com',
+                  style: TextStyle(
+                    color: Colors.teal[900],
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 20,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
