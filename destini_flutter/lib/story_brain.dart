@@ -4,7 +4,7 @@ class StoryBrain {
   final Story _rootStory = Story(
     storyText:
         '''You find yourself in the year 1887, standing outside 221B Baker Street, the infamous address of the great detective Sherlock Holmes. You've heard of his remarkable deductive skills and have come to ask for his assistance in solving a personal matter.
-        But as you knock on the door, you realize that this is not just any ordinary day at Baker Street. The door creaks open to reveal a frantic Mrs. Hudson, who informs you that Sherlock Holmes has gone missing and it's up to you to find him.''',
+But as you knock on the door, you realize that this is not just any ordinary day at Baker Street. The door creaks open to reveal a frantic Mrs. Hudson, who informs you that Sherlock Holmes has gone missing and it's up to you to find him.''',
     option1:
         '''Take on the challenge and search for Sherlock Holmes on your own.''',
     option2:
@@ -49,8 +49,11 @@ class StoryBrain {
     storyText:
         '''The police launch a full-scale investigation and, with Sherlock's help, are able to track down and raid the society's lair. The detective is freed, and the society is brought to justice. The two of you return to Baker Street, where you are hailed as heroes.''',
   );
+  Story? currentStory;
 
   StoryBrain() {
+    currentStory = rootStory;
+
     _rootStory.path1Story = _story0;
     _rootStory.path2Story = _story1;
 
@@ -66,5 +69,20 @@ class StoryBrain {
 
   Story get rootStory {
     return _rootStory;
+  }
+
+  bool choosePath(int path) {
+    if (path == 1) {
+      if (currentStory?.path1Story == null) {
+        return false;
+      }
+      currentStory = currentStory?.path1Story;
+    } else {
+      if (currentStory?.path2Story == null) {
+        return false;
+      }
+      currentStory = currentStory?.path2Story;
+    }
+    return true;
   }
 }
