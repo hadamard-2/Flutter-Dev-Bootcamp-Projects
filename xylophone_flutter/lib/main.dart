@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -43,7 +45,11 @@ class XylophoneKey extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TextButton(
-        child: Container(color: keyColor),
+        style: TextButton.styleFrom(
+          backgroundColor: keyColor,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        ),
+        child: Container(),
         onPressed: () {
           myPlayer.play(AssetSource('note$noteNumber.wav'));
         },
