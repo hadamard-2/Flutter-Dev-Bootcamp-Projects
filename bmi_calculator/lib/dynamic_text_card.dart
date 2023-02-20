@@ -32,6 +32,7 @@ class _DynamicTextCardState extends State<DynamicTextCard> {
   @override
   Widget build(BuildContext context) {
     return ReusableCard(
+      onPressed: () {},
       cardChild: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

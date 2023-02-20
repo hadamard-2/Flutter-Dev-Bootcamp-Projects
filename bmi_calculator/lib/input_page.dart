@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
-import 'icon_content_card.dart';
+import 'icon_content.dart';
 import 'dynamic_text_card.dart';
 
 const bottomContainerHeight = 80.0;
 const bottomContainerColor = Color(0xFFEA1556);
+const activeIconContentColor = Colors.white;
+const inactiveIconContentColor = Color(0XFF8D8E98);
+
+enum Gender {
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -15,7 +21,9 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  double height = 183;
+  int height = 183;
+
+  Gender selectedGender = Gender.male;
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +35,47 @@ class _InputPageState extends State<InputPage> {
         children: [
           Expanded(
             child: Row(
-              children: const [
-                IconContentCard(
-                  iconData: FontAwesomeIcons.mars,
-                  cardText: 'MALE',
+              children: [
+                Expanded(
+                  child: ReusableCard(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
+                    },
+                    cardColor: const Color(0xFF1D1F33),
+                    cardChild: IconContent(
+                      contentColor: selectedGender == Gender.male
+                          ? activeIconContentColor
+                          : inactiveIconContentColor,
+                      iconData: Icons.male,
+                      cardText: 'MALE',
+                    ),
+                  ),
                 ),
-                IconContentCard(
-                  iconData: FontAwesomeIcons.venus,
-                  cardText: 'FEMALE',
+                Expanded(
+                  child: ReusableCard(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = Gender.female;
+                      });
+                    },
+                    cardColor: const Color(0xFF1D1F33),
+                    cardChild: IconContent(
+                      contentColor: selectedGender == Gender.female
+                          ? activeIconContentColor
+                          : inactiveIconContentColor,
+                      iconData: Icons.female,
+                      cardText: 'FEMALE',
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           Expanded(
             child: ReusableCard(
+              onPressed: () {},
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -63,17 +98,23 @@ class _InputPageState extends State<InputPage> {
                           fontSize: 40,
                         ),
                       ),
-                      const Text(' cm'),
+                      const Text(
+                        ' cm',
+                        style: TextStyle(
+                          color: Color(0XFF8D8E98),
+                          fontSize: 17,
+                        ),
+                      ),
                     ],
                   ),
                   Slider(
                     activeColor: bottomContainerColor,
                     min: 50,
                     max: 300,
-                    value: height,
+                    value: height.toDouble(),
                     onChanged: (value) {
                       setState(() {
-                        height = value;
+                        height = value.toInt();
                       });
                     },
                   ),
@@ -84,8 +125,12 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: const [
-                DynamicTextCard(title: 'WEIGHT'),
-                DynamicTextCard(title: 'AGE'),
+                Expanded(
+                  child: DynamicTextCard(title: 'WEIGHT'),
+                ),
+                Expanded(
+                  child: DynamicTextCard(title: 'AGE'),
+                ),
               ],
             ),
           ),
