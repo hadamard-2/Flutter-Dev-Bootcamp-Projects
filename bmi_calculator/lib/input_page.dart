@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'reusable_card.dart';
+import 'icon_content_card.dart';
+import 'dynamic_text_card.dart';
 
 const bottomContainerHeight = 80.0;
-const activeCardColor = Color(0xFF101427);
 const bottomContainerColor = Color(0xFFEA1556);
-const floatingActionButtonColor = Color(0xFF1C2033);
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -14,37 +15,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  int height = 183;
-  int weight = 74;
-  int age = 19;
-
-  void incrementWeight() {
-    setState(() {
-      weight++;
-    });
-  }
-
-  void decrementWeight() {
-    setState(() {
-      if (weight > 0) {
-        weight--;
-      }
-    });
-  }
-
-  void incrementAge() {
-    setState(() {
-      age++;
-    });
-  }
-
-  void decrementAge() {
-    setState(() {
-      if (age > 0) {
-        age--;
-      }
-    });
-  }
+  double height = 183;
 
   @override
   Widget build(BuildContext context) {
@@ -56,48 +27,14 @@ class _InputPageState extends State<InputPage> {
         children: [
           Expanded(
             child: Row(
-              children: [
-                ReusableCard(
-                  cardChild: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      FaIcon(
-                        FontAwesomeIcons.mars,
-                        size: 75,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'MALE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
+              children: const [
+                IconContentCard(
+                  iconData: FontAwesomeIcons.mars,
+                  cardText: 'MALE',
                 ),
-                ReusableCard(
-                  cardChild: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      FaIcon(
-                        FontAwesomeIcons.venus,
-                        size: 75,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'FEMALE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
+                IconContentCard(
+                  iconData: FontAwesomeIcons.venus,
+                  cardText: 'FEMALE',
                 ),
               ],
             ),
@@ -109,7 +46,12 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text('HEIGHT'),
+                    child: Text(
+                      'HEIGHT',
+                      style: TextStyle(
+                        color: Color(0XFF8D8E98),
+                      ),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,12 +68,12 @@ class _InputPageState extends State<InputPage> {
                   ),
                   Slider(
                     activeColor: bottomContainerColor,
-                    min: 10,
+                    min: 50,
                     max: 300,
-                    value: height.toDouble(),
+                    value: height,
                     onChanged: (value) {
                       setState(() {
-                        height = value.toInt();
+                        height = value;
                       });
                     },
                   ),
@@ -141,89 +83,9 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: Row(
-              children: [
-                ReusableCard(
-                  cardChild: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('WEIGHT'),
-                      ),
-                      Text(
-                        weight.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FloatingActionButton(
-                            backgroundColor: floatingActionButtonColor,
-                            onPressed: decrementWeight,
-                            child: const Icon(
-                              Icons.remove,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                          ),
-                          FloatingActionButton(
-                            backgroundColor: floatingActionButtonColor,
-                            onPressed: incrementWeight,
-                            child: const Icon(
-                              Icons.add,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                ReusableCard(
-                  cardChild: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('AGE'),
-                      ),
-                      Text(
-                        age.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FloatingActionButton(
-                            backgroundColor: floatingActionButtonColor,
-                            onPressed: incrementAge,
-                            child: const Icon(
-                              Icons.remove,
-                              color: Colors.white,
-                              size: 35,
-                            ),
-                          ),
-                          FloatingActionButton(
-                            backgroundColor: floatingActionButtonColor,
-                            onPressed: decrementAge,
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 35,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              children: const [
+                DynamicTextCard(title: 'WEIGHT'),
+                DynamicTextCard(title: 'AGE'),
               ],
             ),
           ),
@@ -243,33 +105,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ReusableCard extends StatefulWidget {
-  const ReusableCard(
-      {super.key, this.cardColor = activeCardColor, required this.cardChild});
-
-  final Color cardColor;
-  final Widget cardChild;
-
-  @override
-  State<ReusableCard> createState() => _ReusableCardState();
-}
-
-class _ReusableCardState extends State<ReusableCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: widget.cardColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: widget.cardChild,
       ),
     );
   }
