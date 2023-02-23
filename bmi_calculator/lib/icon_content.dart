@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
-const defaultContentColor = Color(0xFF8C8D99);
+import 'constants.dart';
 
 class IconContent extends StatelessWidget {
   const IconContent(
       {super.key,
       required this.iconData,
       required this.cardText,
-      this.contentColor = defaultContentColor});
+      this.contentColor = kDefaultContentColor});
 
   final IconData iconData;
   final String cardText;

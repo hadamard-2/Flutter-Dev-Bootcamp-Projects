@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'reusable_card.dart';
-
-const floatingActionButtonColor = Color(0xFF1C2033);
+import 'constants.dart';
+import 'dart:math';
 
 class DynamicTextCard extends StatefulWidget {
   const DynamicTextCard({super.key, required this.title});
@@ -13,7 +13,7 @@ class DynamicTextCard extends StatefulWidget {
 }
 
 class _DynamicTextCardState extends State<DynamicTextCard> {
-  int value = 0;
+  int value = Random().nextInt(90) + 1;
 
   void incrementValue() {
     setState(() {
@@ -40,42 +40,54 @@ class _DynamicTextCardState extends State<DynamicTextCard> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
               widget.title,
-              style: const TextStyle(
-                color: Color(0XFF8D8E98),
-              ),
+              style: kLabelTextStyle,
             ),
           ),
           Text(
             value.toString(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 40,
-            ),
+            style: kNumberTextStyle,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FloatingActionButton(
-                backgroundColor: floatingActionButtonColor,
+              RoundIconButton(
+                iconData: Icons.remove,
                 onPressed: decrementValue,
-                child: const Icon(
-                  Icons.remove,
-                  size: 35,
-                  color: Colors.white,
-                ),
               ),
-              FloatingActionButton(
-                backgroundColor: floatingActionButtonColor,
+              RoundIconButton(
+                iconData: Icons.add,
                 onPressed: incrementValue,
-                child: const Icon(
-                  Icons.add,
-                  size: 35,
-                  color: Colors.white,
-                ),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  const RoundIconButton(
+      {super.key, required this.iconData, required this.onPressed});
+
+  final IconData iconData;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      shape: const CircleBorder(),
+      fillColor: kRoundIconButtonColor,
+      elevation: 6,
+      constraints: const BoxConstraints.tightFor(
+        width: 56,
+        height: 56,
+      ),
+      child: Icon(
+        iconData,
+        size: 35,
+        color: Colors.white,
       ),
     );
   }

@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'dynamic_text_card.dart';
-
-const bottomContainerHeight = 80.0;
-const bottomContainerColor = Color(0xFFEA1556);
-const activeIconContentColor = Colors.white;
-const inactiveIconContentColor = Color(0XFF8D8E98);
+import 'constants.dart';
 
 enum Gender {
   male,
@@ -46,8 +42,8 @@ class _InputPageState extends State<InputPage> {
                     cardColor: const Color(0xFF1D1F33),
                     cardChild: IconContent(
                       contentColor: selectedGender == Gender.male
-                          ? activeIconContentColor
-                          : inactiveIconContentColor,
+                          ? kActiveIconContentColor
+                          : kInactiveIconContentColor,
                       iconData: Icons.male,
                       cardText: 'MALE',
                     ),
@@ -63,8 +59,8 @@ class _InputPageState extends State<InputPage> {
                     cardColor: const Color(0xFF1D1F33),
                     cardChild: IconContent(
                       contentColor: selectedGender == Gender.female
-                          ? activeIconContentColor
-                          : inactiveIconContentColor,
+                          ? kActiveIconContentColor
+                          : kInactiveIconContentColor,
                       iconData: Icons.female,
                       cardText: 'FEMALE',
                     ),
@@ -83,40 +79,45 @@ class _InputPageState extends State<InputPage> {
                     padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       'HEIGHT',
-                      style: TextStyle(
-                        color: Color(0XFF8D8E98),
-                      ),
+                      style: kLabelTextStyle,
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
                         height.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                        ),
+                        style: kNumberTextStyle,
                       ),
                       const Text(
                         ' cm',
-                        style: TextStyle(
-                          color: Color(0XFF8D8E98),
-                          fontSize: 17,
-                        ),
+                        style: kLabelTextStyle,
                       ),
                     ],
                   ),
-                  Slider(
-                    activeColor: bottomContainerColor,
-                    min: 50,
-                    max: 300,
-                    value: height.toDouble(),
-                    onChanged: (value) {
-                      setState(() {
-                        height = value.toInt();
-                      });
-                    },
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: Colors.white,
+                      inactiveTrackColor: kInactiveIconContentColor,
+                      thumbColor: kBottomContainerColor,
+                      overlayColor: const Color(0x29EA1556),
+                      thumbShape:
+                          const RoundSliderThumbShape(enabledThumbRadius: 12),
+                      overlayShape:
+                          const RoundSliderOverlayShape(overlayRadius: 24),
+                    ),
+                    child: Slider(
+                      min: 120,
+                      max: 220,
+                      value: height.toDouble(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -135,10 +136,10 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Container(
-            color: bottomContainerColor,
+            color: kBottomContainerColor,
             margin: const EdgeInsets.only(top: 10),
             width: double.infinity,
-            height: bottomContainerHeight,
+            height: kBottomContainerHeight,
             child: const Center(
               child: Text(
                 'CALCULATE',
