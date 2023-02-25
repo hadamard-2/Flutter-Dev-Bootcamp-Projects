@@ -1,8 +1,12 @@
+import 'package:bmi_calculator/screens/result_page.dart';
 import 'package:flutter/material.dart';
-import 'reusable_card.dart';
-import 'icon_content.dart';
-import 'dynamic_text_card.dart';
-import 'constants.dart';
+import 'package:bmi_calculator/components/reusable_card.dart';
+import 'package:bmi_calculator/components/icon_content.dart';
+import 'package:bmi_calculator/components/dynamic_text_card.dart';
+import 'package:bmi_calculator/constants.dart';
+import 'package:bmi_calculator/components/bottom_text_bar.dart';
+import 'dart:math';
+import 'package:bmi_calculator/calculator_brain.dart';
 
 enum Gender {
   male,
@@ -17,17 +21,21 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  int height = 183;
+  int height = Random().nextInt(100) + 120;
 
   Gender selectedGender = Gender.male;
 
   @override
   Widget build(BuildContext context) {
+    CalculatorBrain.height = height.toDouble();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI Calculator'),
+        title: const Text('BMI CALCULATOR'),
+        centerTitle: true,
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: Row(
@@ -127,30 +135,24 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: const [
                 Expanded(
-                  child: DynamicTextCard(title: 'WEIGHT'),
+                  child: DynamicTextCard(title: 'Weight'),
                 ),
                 Expanded(
-                  child: DynamicTextCard(title: 'AGE'),
+                  child: DynamicTextCard(title: 'Age'),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: const EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-            child: const Center(
-              child: Text(
-                'CALCULATE',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: BottomTextBar(
+        text: 'CALCULATE',
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ResultPage()),
+          );
+        },
       ),
     );
   }

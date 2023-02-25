@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'reusable_card.dart';
-import 'constants.dart';
+import 'package:bmi_calculator/constants.dart';
 import 'dart:math';
+import 'round_icon_button.dart';
+import 'package:bmi_calculator/calculator_brain.dart';
 
 class DynamicTextCard extends StatefulWidget {
   const DynamicTextCard({super.key, required this.title});
@@ -31,6 +33,10 @@ class _DynamicTextCardState extends State<DynamicTextCard> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.title.toLowerCase() == "weight".toLowerCase()) {
+      CalculatorBrain.weight = value.toDouble();
+    }
+
     return ReusableCard(
       onPressed: () {},
       cardChild: Column(
@@ -39,7 +45,7 @@ class _DynamicTextCardState extends State<DynamicTextCard> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
-              widget.title,
+              widget.title.toUpperCase(),
               style: kLabelTextStyle,
             ),
           ),
@@ -61,33 +67,6 @@ class _DynamicTextCardState extends State<DynamicTextCard> {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  const RoundIconButton(
-      {super.key, required this.iconData, required this.onPressed});
-
-  final IconData iconData;
-  final void Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onPressed,
-      shape: const CircleBorder(),
-      fillColor: kRoundIconButtonColor,
-      elevation: 6,
-      constraints: const BoxConstraints.tightFor(
-        width: 56,
-        height: 56,
-      ),
-      child: Icon(
-        iconData,
-        size: 35,
-        color: Colors.white,
       ),
     );
   }
